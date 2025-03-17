@@ -1,54 +1,102 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Data Science Projects</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Data Science Projects</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About Me</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="projects">
+            <h2>Projects</h2>
+            <article>
+                <h3>Sales Forecasting</h3>
+                <p>Predict future sales for a retail store using historical data.</p>
+                <pre><code>
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
 
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 1em;
-    text-align: center;
-}
+# Load data
+data = pd.read_csv('sales_data.csv')
 
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    background-color: #333;
-}
+# Preprocess data
+data['Date'] = pd.to_datetime(data['Date'])
+data['Month'] = data['Date'].dt.month
+data['Year'] = data['Date'].dt.year
 
-nav ul li {
-    display: inline;
-}
+# Feature selection
+features = ['Month', 'Year', 'Store', 'Product']
+X = data[features]
+y = data['Sales']
 
-nav ul li a {
-    color: white;
-    padding: 14px 20px;
-    text-decoration: none;
-}
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-nav ul li a:hover {
-    background-color: #111;
-}
+# Train model
+model = RandomForestRegressor(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
 
-main {
-    padding: 1em;
-}
+# Predict and evaluate
+y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+print(f'Mean Squared Error: {mse}')
+                </code></pre>
+                <a href="https://github.com/yourusername/sales-forecasting">View on GitHub</a>
+            </article>
+            <article>
+                <h3>Sentiment Analysis</h3>
+                <p>Classify customer reviews as positive or negative using natural language processing.</p>
+                <pre><code>
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score
 
-section#projects article {
-    margin-bottom: 1em;
-    padding: 1em;
-    border: 1px solid #ddd;
-}
+# Load data
+data = pd.read_csv('reviews.csv')
 
-pre {
-    background-color: #f4f4f4;
-    padding: 1em;
-    overflow-x: auto;
-}
+# Preprocess data
+X = data['Review']
+y = data['Sentiment']
 
-pre code {
-    font-size: 0.9em;
-}
+# Vectorize text data
+vectorizer = CountVectorizer()
+X_vectorized = vectorizer.fit_transform(X)
 
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X_vectorized, y, test_size=0.2, random_state=42)
+
+# Train model
+model = MultinomialNB()
+model.fit(X_train, y_train)
+
+# Predict and evaluate
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy}')
+                </code></pre>
+                <a href="https://github.com/yourusername/sentiment-analysis">View on GitHub</a>
+            </article>
+            <!-- Add more projects as needed -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 My Data Science Portfolio</p>
+    </footer>
+</body>
+</html>
